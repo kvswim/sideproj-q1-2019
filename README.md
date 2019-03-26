@@ -1,2 +1,4 @@
 # sideproj-q1-2019
-asdfghjkl
+Kyle Verdeyen
+Side project to warm back up to C++ conventions.
+Performed under supervision of Dhruv Bhatt.
