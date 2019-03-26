@@ -1,6 +1,6 @@
 #include "librarybook.h"
 
-class LibraryBook::LibraryBook()
+LibraryBook::LibraryBook()
 {
 
 }

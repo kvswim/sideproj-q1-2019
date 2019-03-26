@@ -3,6 +3,8 @@
 
 #include <QString>
 #include "date.h"
+#include "librarypatron.h"
+#include "book.h"
 
 class LibraryBook : public Book
 {
@@ -15,7 +17,7 @@ public:
 
 private:
     Date dueDate;
-    LibraryPatron patron = NULL;
+    LibraryPatron patron;
 };
 
 #endif // LIBRARYBOOK_H
