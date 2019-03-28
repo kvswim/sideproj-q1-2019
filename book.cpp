@@ -4,3 +4,14 @@ Book::Book()
 {
 
 }
+
+Book::~Book()
+{
+
+}
+
+QString Book::getBook()
+{
+    QString temp;
+    return temp;
+}

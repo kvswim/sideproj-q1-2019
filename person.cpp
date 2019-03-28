@@ -4,3 +4,13 @@ Person::Person()
 {
 
 }
+
+Person::~Person()
+{
+
+}
+
+void Person::print()
+{
+
+}

@@ -4,3 +4,8 @@ Library::Library()
 {
 
 }
+
+Library::~Library()
+{
+
+}
