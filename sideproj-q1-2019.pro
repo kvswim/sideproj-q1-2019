@@ -29,7 +29,8 @@ SUBDIRS += \
 DISTFILES += \
     sideproj-q1-2019.pro.user \
     README.md \
-    LICENSE
+    LICENSE \
+    command
 
 HEADERS += \
     book.h \

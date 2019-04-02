@@ -6,6 +6,8 @@
 #include "librarypatron.h"
 #include "date.h"
 
+#include <vector>
+
 using namespace std;
 
 class Library
@@ -21,7 +23,7 @@ public:
     void computeOverdueFines();
     void checkOutBook(LibraryBook librarybook, LibraryPatron patron);
     void checkInBook(LibraryBook librarybook, LibraryPatron patron);
-    //void changeDate();
+    void changeDate();
     void addBooktoLibrary(Book book);
     void getAllLibraryBooks();
     void getLibraryBooksByGenre(Book book);
@@ -31,8 +33,8 @@ public:
     void getCheckedOutBooksbyPatron(LibraryPatron patron);
 
 private:
-    LibraryBook LibraryBooks;
-    LibraryPatron LibraryPatrons;
+    vector<LibraryBook> LibraryBooks;
+    vector<LibraryPatron> LibraryPatrons;
 
 };
 

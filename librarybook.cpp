@@ -26,3 +26,18 @@ void LibraryBook::print()
 {
 
 }
+
+//void LibraryBook::setAuthor(QString authorToSet)
+//{
+//    author = authorToSet;
+//}
+
+//void LibraryBook::setGenre(QString genreToSet)
+//{
+//    genre = genreToSet;
+//}
+
+//void LibraryBook::setTitle(QString titleToSet)
+//{
+//    title = titleToSet;
+//}

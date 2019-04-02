@@ -12,5 +12,7 @@ Person::~Person()
 
 void Person::print()
 {
-
+ std::cout << "DEBUG (PERSON): NAME: "
+           << this->name.toStdString()
+           << " AGE: " << age;
 }

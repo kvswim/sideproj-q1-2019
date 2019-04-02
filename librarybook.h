@@ -14,6 +14,9 @@ public:
     Date getDueDate();
     QString getCurrentPatron();
     void print();
+//    void setAuthor(QString authorToSet);
+//    void setGenre(QString genreToSet);
+//    void setTitle(QString titleToSet);
 
 private:
     Date dueDate;

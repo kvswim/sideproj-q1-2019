@@ -9,6 +9,7 @@ public:
     Book();
     ~Book();
     QString getBook();
+    void print();
 
 private:
     QString title, author, genre;

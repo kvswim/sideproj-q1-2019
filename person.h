@@ -2,6 +2,7 @@
 #define PERSON_H
 
 #include <QString>
+#include <iostream>
 
 class Person
 {
