@@ -8,12 +8,17 @@ class Person
 {
 public:
     Person();
+    Person(QString name, int age);
     ~Person();
     void print();
 
+    QString& name() {return _name;}
+    int& age() {return _age;}
+
+
 private:
-    QString name;
-    int age;
+    QString _name;
+    int _age;
 };
 
 #endif // PERSON_H

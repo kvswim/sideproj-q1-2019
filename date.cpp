@@ -2,20 +2,20 @@
 
 Date::Date()
 {
-
+    time_t _currentTime;
 }
 
-Date::~Date()
+Date::Date(time_t inputTime)
 {
-
+    time_t _currentTime = inputTime;
 }
 
-void Date::changeDate()
+void Date::changeDate(Date newDate)
 {
-
+    _currentTime = newDate.currentTime();
 }
 
-void Date::getTimeDifference()
+void Date::print()
 {
-
+    qDebug() << this->currentTime();
 }

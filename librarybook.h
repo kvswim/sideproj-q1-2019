@@ -10,17 +10,17 @@ class LibraryBook : public Book
 {
 public:
     LibraryBook();
-    ~LibraryBook();
-    Date getDueDate();
-    QString getCurrentPatron();
+    LibraryBook(Book book);
+    ~LibraryBook() {}
     void print();
-//    void setAuthor(QString authorToSet);
-//    void setGenre(QString genreToSet);
-//    void setTitle(QString titleToSet);
+
+    Date& dueDate(){return _dueDate;}
+    LibraryPatron& libraryPatron(){return _patron;}
 
 private:
-    Date dueDate;
-    LibraryPatron patron;
+    Date _dueDate;
+    LibraryPatron _patron;
+    bool isCheckedOut;
 };
 
 #endif // LIBRARYBOOK_H

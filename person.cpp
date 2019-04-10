@@ -2,7 +2,14 @@
 
 Person::Person()
 {
+    QString _name;
+    int _age;
+}
 
+Person::Person(QString name, int age)
+{
+    QString _name = name;
+    int _age = age;
 }
 
 Person::~Person()
@@ -13,6 +20,6 @@ Person::~Person()
 void Person::print()
 {
  std::cout << "DEBUG (PERSON): NAME: "
-           << this->name.toStdString()
-           << " AGE: " << age;
+           << name().toStdString()
+           << " AGE: " << age();
 }

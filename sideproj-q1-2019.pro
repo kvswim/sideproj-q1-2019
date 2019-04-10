@@ -30,7 +30,8 @@ DISTFILES += \
     sideproj-q1-2019.pro.user \
     README.md \
     LICENSE \
-    command
+    command \
+    library_project.txt
 
 HEADERS += \
     book.h \

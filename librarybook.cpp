@@ -2,42 +2,23 @@
 
 LibraryBook::LibraryBook()
 {
-
+    Date _dueDate;
+    LibraryPatron _patron;
+    QString _title, _author, _genre;
+    bool isCheckedOut = false;
 }
 
-LibraryBook::~LibraryBook()
+LibraryBook::LibraryBook(Book book)
 {
-
-}
-
-Date LibraryBook::getDueDate()
-{
-    Date temp;
-    return temp;
-}
-
-QString LibraryBook::getCurrentPatron()
-{
-    QString temp;
-    return temp;
+    QString _title = book.title();
+    QString _author = book.author();
+    QString _genre = book.genre();
+    bool isCheckedOut = false;
+    LibraryPatron _patron;
+    Date _dueDate;
 }
 
 void LibraryBook::print()
 {
 
 }
-
-//void LibraryBook::setAuthor(QString authorToSet)
-//{
-//    author = authorToSet;
-//}
-
-//void LibraryBook::setGenre(QString genreToSet)
-//{
-//    genre = genreToSet;
-//}
-
-//void LibraryBook::setTitle(QString titleToSet)
-//{
-//    title = titleToSet;
-//}

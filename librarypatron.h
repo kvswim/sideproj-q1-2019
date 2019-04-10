@@ -3,16 +3,20 @@
 
 #include "person.h"
 
+#include <QDebug>
+
 class LibraryPatron : public Person
 {
 public:
     LibraryPatron();
-    ~LibraryPatron();
+    LibraryPatron(Person person);
+    LibraryPatron(Person person, int cardNumber);
+    ~LibraryPatron() {}
     void print();
-    int getLibraryCardNumber();
+    int& libraryCardNumber() {return _librarycardnumber;}
 
 private:
-    int librarycardnumber;
+    int _librarycardnumber;
 };
 
 #endif // LIBRARYPATRON_H
