@@ -15,7 +15,7 @@ class Library
 {
 public:
     Library();
-    ~Library();
+    ~Library() {}
     Library(const vector<LibraryBook> libraryBooks,
             const vector<LibraryPatron> libraryPatrons, const Date currentDate);
 

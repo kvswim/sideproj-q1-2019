@@ -2,6 +2,7 @@
 #define PERSON_H
 
 #include <QString>
+#include <QDebug>
 #include <iostream>
 
 class Person
@@ -9,7 +10,7 @@ class Person
 public:
     Person();
     Person(QString name, int age);
-    ~Person();
+    ~Person() {}
     void print();
 
     QString& name() {return _name;}

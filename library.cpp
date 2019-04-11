@@ -13,7 +13,6 @@ Library::Library(const vector<LibraryBook> libraryBooks,
     _libraryPatrons = libraryPatrons;
     _currentDate = currentDate;
 }
-Library::~Library() {}
 
 //obsolete functions since vector is in use
 //void Library::resize(LibraryBook LibraryBooks){}
@@ -28,7 +27,7 @@ void Library::assignLibraryCardNumber(Person person)
         LibraryPatron newPatron = LibraryPatron(person, 1001);
         libraryPatrons().push_back(newPatron);
     }
-    else
+    else //everyone after gets last+1
     {
         int lastId = libraryPatrons().back().libraryCardNumber();
         int newId = ++lastId;
@@ -36,25 +35,25 @@ void Library::assignLibraryCardNumber(Person person)
         libraryPatrons().push_back(newPatron);
     }
 }
-void Library::computeOverdueFines()
+void Library::computeOverdueFines() //TODO
 {
     //1 day = 86400 seconds
     //adults >=12 charged $0.25/day overdue
     //children <12 charged 0.10/day
 }
 
-void Library::checkOutBook(LibraryBook librarybook, LibraryPatron patron)
+void Library::checkOutBook(LibraryBook librarybook, LibraryPatron patron) //TODO
 {
     //children <12 can check out for 604800 seconds
     //adults >=12 can check out for 1210000 seconds
 }
 
-void Library::checkInBook(LibraryBook librarybook, LibraryPatron patron)
+void Library::checkInBook(LibraryBook librarybook, LibraryPatron patron) //TODO
 {
 
 }
 
-void Library::changeDate()
+void Library::changeDate() //TODO
 {
 
 }

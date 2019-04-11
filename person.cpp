@@ -12,14 +12,8 @@ Person::Person(QString name, int age)
     int _age = age;
 }
 
-Person::~Person()
-{
-
-}
 
 void Person::print()
 {
- std::cout << "DEBUG (PERSON): NAME: "
-           << name().toStdString()
-           << " AGE: " << age();
+    qDebug() << this->name() << this->age();
 }

@@ -2,6 +2,7 @@
 #define LIBRARYBOOK_H
 
 #include <QString>
+#include <QDebug>
 #include "date.h"
 #include "librarypatron.h"
 #include "book.h"
