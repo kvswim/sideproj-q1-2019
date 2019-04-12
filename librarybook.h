@@ -15,8 +15,8 @@ public:
     ~LibraryBook() {}
     void print();
 
-    Date& dueDate(){return _dueDate;}
-    LibraryPatron& libraryPatron(){return _patron;}
+    Date dueDate(){return _dueDate;}
+    LibraryPatron libraryPatron(){return _patron;}
 
 private:
     Date _dueDate;

@@ -2,20 +2,15 @@
 
 LibraryBook::LibraryBook()
 {
-    Date _dueDate;
-    LibraryPatron _patron;
-    QString _title, _author, _genre;
-    bool isCheckedOut = false;
+    isCheckedOut = false;
 }
 
 LibraryBook::LibraryBook(Book book)
 {
-    QString _title = book.title();
-    QString _author = book.author();
-    QString _genre = book.genre();
-    bool isCheckedOut = false;
-    LibraryPatron _patron;
-    Date _dueDate;
+    this->title() = book.title();
+    this->author() = book.author();
+    this->genre() = book.genre();
+    isCheckedOut = false;
 }
 
 void LibraryBook::print()

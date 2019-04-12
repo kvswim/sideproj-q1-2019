@@ -1,9 +1,7 @@
 #include "library.h"
 Library::Library()
 {
-    vector<LibraryBook> _libraryBooks;
-    vector<LibraryPatron> _libraryPatrons;
-    Date _currentDate = Date(1009843200); //set to January 1, 2002 12:00 AM GMT
+    _currentDate = Date(1009843200); //set to January 1, 2002 12:00 AM GMT
 }
 Library::Library(const vector<LibraryBook> libraryBooks,
                  const vector<LibraryPatron> libraryPatrons,
@@ -22,7 +20,7 @@ Library::Library(const vector<LibraryBook> libraryBooks,
 
 void Library::assignLibraryCardNumber(Person person)
 {
-    if (libraryBooks().empty()) //first member gets card# 1001
+    if (libraryPatrons().empty()) //first member gets card# 1001
     {
         LibraryPatron newPatron = LibraryPatron(person, 1001);
         libraryPatrons().push_back(newPatron);

@@ -13,8 +13,9 @@ public:
     Date(time_t inputTime);
     ~Date() {}
     void changeDate(Date newDate);
-    time_t& currentTime() {return _currentTime;}
     void print();
+
+    time_t currentTime() {return _currentTime;}
 
 private:
     time_t _currentTime;

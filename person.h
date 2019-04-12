@@ -13,7 +13,7 @@ public:
     ~Person() {}
     void print();
 
-    QString& name() {return _name;}
+    QString name() {return _name;}
     int& age() {return _age;}
 
 

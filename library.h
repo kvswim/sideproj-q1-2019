@@ -38,7 +38,7 @@ public:
 
     vector<LibraryBook>& libraryBooks() {return _libraryBooks;}
     vector<LibraryPatron>& libraryPatrons() {return _libraryPatrons;}
-    Date& currentDate() {return _currentDate;}
+    Date currentDate() {return _currentDate;}
 
 private:
     vector<LibraryBook> _libraryBooks;

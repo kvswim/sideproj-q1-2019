@@ -1,8 +1,8 @@
 #include "book.h"
 
-Book::Book() {
-    QString _title, _author, _genre;
-}
+Book::Book() {}
+
+//TODO constructor(author, genre, title)
 
 Book Book::getBook()
 {
