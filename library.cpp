@@ -51,9 +51,14 @@ void Library::checkInBook(LibraryBook librarybook, LibraryPatron patron) //TODO
 
 }
 
-void Library::changeDate() //TODO
+void Library::changeDate() //adds one day
 {
+    currentDate().addTime(86400);
+}
 
+void Library::changeDate(Date newDate)
+{
+    currentDate().addTime(newDate);
 }
 
 void Library::addBooktoLibrary(Book book)

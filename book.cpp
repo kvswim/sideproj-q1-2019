@@ -2,7 +2,12 @@
 
 Book::Book() {}
 
-//TODO constructor(author, genre, title)
+Book::Book(QString author, QString genre, QString title)
+{
+    _author = author;
+    _genre = genre;
+    _title = title;
+}
 
 Book Book::getBook()
 {

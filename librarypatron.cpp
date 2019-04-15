@@ -1,7 +1,7 @@
 #include "librarypatron.h"
 
-LibraryPatron::LibraryPatron()
-{}
+LibraryPatron::LibraryPatron() {}
+
 LibraryPatron::LibraryPatron(Person person)
 {
    this->name() = person.name();

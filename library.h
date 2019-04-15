@@ -8,6 +8,8 @@
 
 #include <vector>
 #include <ctime>
+#include <time.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -29,6 +31,7 @@ public:
     void checkOutBook(LibraryBook librarybook, LibraryPatron patron);
     void checkInBook(LibraryBook librarybook, LibraryPatron patron);
     void changeDate();
+    void changeDate(Date newDate);
     void addBooktoLibrary(Book book);
     vector<LibraryBook> getLibraryBooksByGenre(Book book);
     vector<LibraryPatron> getPatronsAdult();

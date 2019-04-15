@@ -8,6 +8,7 @@ class Book
 {
 public:
     Book();
+    Book(QString author, QString genre, QString title);
     ~Book() {}
     QString& title() {return _title;}
     QString& author() {return _author;}

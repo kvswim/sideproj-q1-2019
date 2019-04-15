@@ -12,7 +12,7 @@ public:
     Date();
     Date(time_t inputTime);
     ~Date() {}
-    void changeDate(Date newDate);
+    void addTime(Date plusTime);
     void print();
 
     time_t currentTime() {return _currentTime;}
