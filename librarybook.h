@@ -17,11 +17,12 @@ public:
 
     Date dueDate(){return _dueDate;}
     LibraryPatron libraryPatron(){return _patron;}
+    bool& isCheckedOut(){return _isCheckedOut;}
 
 private:
     Date _dueDate;
     LibraryPatron _patron;
-    bool isCheckedOut;
+    bool _isCheckedOut;
 };
 
 #endif // LIBRARYBOOK_H

@@ -7,7 +7,7 @@ Date::Date(time_t inputTime)
     _currentTime = inputTime;
 }
 
-void Date::addTime(Date plusTime)
+Date Date::addTime(Date plusTime)
 {
     _currentTime += plusTime.currentTime();
 }

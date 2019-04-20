@@ -2,7 +2,7 @@
 
 LibraryBook::LibraryBook()
 {
-    isCheckedOut = false;
+    _isCheckedOut = false;
 }
 
 LibraryBook::LibraryBook(Book book)
@@ -10,7 +10,7 @@ LibraryBook::LibraryBook(Book book)
     this->title() = book.title();
     this->author() = book.author();
     this->genre() = book.genre();
-    isCheckedOut = false;
+    _isCheckedOut = false;
 }
 
 void LibraryBook::print()

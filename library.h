@@ -21,15 +21,16 @@ public:
     Library(const vector<LibraryBook> libraryBooks,
             const vector<LibraryPatron> libraryPatrons, const Date currentDate);
 
+//  obsolete functions since vector is in use
 //    void resize(LibraryBook LibraryBooks);
 //    void resize(LibraryPatron LibraryPatrons);
 //    void checkCapacity(LibraryBook LibraryBooks);
 //    void checkCapacity(LibraryPatron LibraryPatrons);
 
     void assignLibraryCardNumber(Person person);
-    void computeOverdueFines();
+    double computeOverdueFines(LibraryPatron patron);
     void checkOutBook(LibraryBook librarybook, LibraryPatron patron);
-    void checkInBook(LibraryBook librarybook, LibraryPatron patron);
+    void checkInBook(LibraryBook librarybook);
     void changeDate();
     void changeDate(Date newDate);
     void addBooktoLibrary(Book book);
@@ -41,7 +42,7 @@ public:
 
     vector<LibraryBook>& libraryBooks() {return _libraryBooks;}
     vector<LibraryPatron>& libraryPatrons() {return _libraryPatrons;}
-    Date currentDate() {return _currentDate;}
+    Date& currentDate() {return _currentDate;}
 
 private:
     vector<LibraryBook> _libraryBooks;
