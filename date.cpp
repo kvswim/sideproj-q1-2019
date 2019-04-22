@@ -1,5 +1,6 @@
 #include "date.h"
 
+//TODO this is hopelessly broken
 Date::Date() {}
 
 Date::Date(time_t inputTime)

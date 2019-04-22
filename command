@@ -4,7 +4,7 @@ George Orwell
 Science Fiction
 ADDBOOK
 Hitchhiker's Guide to the Galaxy
-1979
+Douglas Adams
 Science Fiction
 ADDPATRON
 Tom Cruise
@@ -26,11 +26,11 @@ CHECKOUT
 1002
 CHECKOUT
 Hitchhiker's Guide to the Galaxy
-2
+1002
 DAY
 1
 PATRONSBOOKS
-1001
+1002
 PATRONS
 all
 PATRONS

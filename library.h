@@ -29,16 +29,18 @@ public:
 
     void assignLibraryCardNumber(Person person);
     double computeOverdueFines(LibraryPatron patron);
-    void checkOutBook(LibraryBook librarybook, LibraryPatron patron);
-    void checkInBook(LibraryBook librarybook);
+    void checkOutBook(QString title, int patronID);
+    void checkInBook(QString title);
     void changeDate();
     void changeDate(Date newDate);
     void addBooktoLibrary(Book book);
-    vector<LibraryBook> getLibraryBooksByGenre(Book book);
+    vector<LibraryBook> getLibraryBooksByGenre(QString genre);
     vector<LibraryPatron> getPatronsAdult();
     vector<LibraryPatron> getPatronsChild();
-    vector<LibraryBook> getCheckedOutBooksbyPatron(LibraryPatron patron);
+    vector<LibraryBook> getCheckedOutBooksbyPatron(int libraryCardNumber);
     int getLibraryBookIndex(LibraryBook libraryBookToFind);
+    int getLibraryBookIndex(QString title);
+    int getPatronIndex(int patronID);
 
     vector<LibraryBook>& libraryBooks() {return _libraryBooks;}
     vector<LibraryPatron>& libraryPatrons() {return _libraryPatrons;}

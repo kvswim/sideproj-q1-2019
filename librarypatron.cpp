@@ -4,14 +4,14 @@ LibraryPatron::LibraryPatron() {}
 
 LibraryPatron::LibraryPatron(Person person)
 {
-   this->name() = person.name();
-   this->age() = person.age();
+   _name = person.name();
+   _age = person.age();
 }
 LibraryPatron::LibraryPatron(Person person, int cardNumber)
 {
-    this->name() = person.name();
-    this->age() = person.age();
-    this->libraryCardNumber() = cardNumber;
+    _name = person.name();
+    _age = person.age();
+    _librarycardnumber = cardNumber;
 }
 
 void LibraryPatron::print()

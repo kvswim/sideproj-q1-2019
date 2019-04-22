@@ -1,15 +1,11 @@
 #include "person.h"
 
-Person::Person()
-{
-    QString _name;
-    int _age;
-}
+Person::Person() {}
 
 Person::Person(QString name, int age)
 {
-    QString _name = name;
-    int _age = age;
+    _name = name;
+    _age = age;
 }
 
 

@@ -40,7 +40,7 @@ double Library::computeOverdueFines(LibraryPatron patron)
     //adults >=12 charged $0.25/day overdue
     //children <12 charged 0.10/day
     double overdueFines = 0.0;
-    vector<LibraryBook> checkedOutBooks = getCheckedOutBooksbyPatron(patron);
+    vector<LibraryBook> checkedOutBooks = getCheckedOutBooksbyPatron(patron.libraryCardNumber());
     for (unsigned int i = 0; i<checkedOutBooks.size(); ++i)
     {
         int dbIndex = getLibraryBookIndex(checkedOutBooks.at(i));
@@ -60,46 +60,56 @@ double Library::computeOverdueFines(LibraryPatron patron)
     return overdueFines;
 }
 
-void Library::checkOutBook(LibraryBook librarybook, LibraryPatron patron)
+void Library::checkOutBook(QString title, int patronID)
 {
     //children <12 can check out for 604800 seconds
     //adults >=12 can check out for 1210000 seconds
-    int dbIndex = getLibraryBookIndex(librarybook);
-    if (dbIndex == -1) //unable to find
+    int dbIndex = getLibraryBookIndex(title);
+    int patronIndex = getPatronIndex(patronID);
+    if (dbIndex == -1 || patronIndex == -1)
     {
-        qDebug() << "Unable to find that library book in current library database.";
+        qDebug() << "Something went wrong. dbIndex is " << dbIndex
+                 << "PatronIndex is " << patronIndex;
     }
-    else //exists in db
+    else //book is in db, patron is in db.
     {
-        if(libraryBooks().at(dbIndex).isCheckedOut() == true) //book is currently checked out
+        if (libraryBooks().at(dbIndex).isCheckedOut() == true)
         {
-            qDebug() << "That book is already checked out.";
+            qDebug() << "Error: That book is already checked out.";
         }
-        else //book has been found in db and book is not currently checked out
+        else //all checks passed.
         {
-            if(patron.age() >= 12)
+            if (libraryPatrons().at(patronIndex).age() >= 12)
             {
-                libraryBooks().at(dbIndex).libraryPatron() = patron;
+                libraryBooks().at(dbIndex).libraryPatron() =
+                        libraryPatrons().at(patronIndex);
                 libraryBooks().at(dbIndex).isCheckedOut() = true;
-                libraryBooks().at(dbIndex).dueDate() = currentDate().addTime(1210000);
+                libraryBooks().at(dbIndex).dueDate() =
+                        currentDate().addTime(1210000);
             }
-            else //age<12
+            else
             {
-                libraryBooks().at(dbIndex).libraryPatron() = patron;
+                libraryBooks().at(dbIndex).libraryPatron() =
+                        libraryPatrons().at(patronIndex);
                 libraryBooks().at(dbIndex).isCheckedOut() = true;
-                libraryBooks().at(dbIndex).dueDate() = currentDate().addTime(604800);
+                libraryBooks().at(dbIndex).dueDate() =
+                        currentDate().addTime(604800);
             }
         }
     }
 }
 
-void Library::checkInBook(LibraryBook librarybook)
+void Library::checkInBook(QString title)
 {
-    int dbIndex = getLibraryBookIndex(librarybook);
-    if (dbIndex == -1) qDebug() << "unable to find library book in current db";
+    int dbIndex = getLibraryBookIndex(title);
+    if (dbIndex == -1)
+    {
+        qDebug() << "Error: Unable to find library book in current db.";
+    }
     double fine = computeOverdueFines(libraryBooks().at(dbIndex).libraryPatron());
-    qDebug() << "Note: current patron owes " << fine << "in fines.";
-    libraryBooks().at(dbIndex).libraryPatron() = LibraryPatron(); //reset
+    cout << "Note: patron " << libraryBooks().at(dbIndex).libraryPatron().name().toStdString()
+         << "owes " << fine << " in fines." << endl;
+    libraryBooks().at(dbIndex).libraryPatron() = LibraryPatron(); //reset w constructor
     libraryBooks().at(dbIndex).isCheckedOut() = false;
     libraryBooks().at(dbIndex).dueDate() = Date();
 }
@@ -122,12 +132,12 @@ void Library::addBooktoLibrary(Book book)
 
 
 
-vector<LibraryBook> Library::getLibraryBooksByGenre(Book book)
+vector<LibraryBook> Library::getLibraryBooksByGenre(QString genre)
 {
     vector<LibraryBook> booksByGenre;
     for (unsigned int i=0; i<libraryBooks().size(); ++i)
     {
-        if (libraryBooks().at(i).genre() == book.genre())
+        if (libraryBooks().at(i).genre() == genre)
         {
             booksByGenre.push_back(libraryBooks().at(i));
         }
@@ -165,12 +175,13 @@ vector<LibraryPatron> Library::getPatronsChild()
     return childPatrons;
 }
 
-vector<LibraryBook> Library::getCheckedOutBooksbyPatron(LibraryPatron patron)
+vector<LibraryBook> Library::getCheckedOutBooksbyPatron(int libraryCardNumber) //TODO something's broken here
 {
     vector<LibraryBook> checkedOutBooks;
     for (unsigned int i=0; i<libraryBooks().size(); ++i)
     {
-        if (libraryBooks().at(i).libraryPatron().name() == patron.name())
+        if (libraryBooks().at(i).libraryPatron().libraryCardNumber() == libraryCardNumber
+                && libraryBooks().at(i).isCheckedOut() == true)
         {
             checkedOutBooks.push_back(libraryBooks().at(i));
         }
@@ -186,8 +197,37 @@ int Library::getLibraryBookIndex(LibraryBook libraryBookToFind){
                 libraryBooks().at(i).genre() == libraryBookToFind.genre() &&
                 libraryBooks().at(i).title() == libraryBookToFind.title())
         {
+            bookId = i;
             return bookId;
         }
     }
     return bookId; //if not found return -1
+}
+
+int Library::getLibraryBookIndex(QString title)
+{
+    int dbIndex = -1;
+    for(unsigned int i=0; i<libraryBooks().size(); i++)
+    {
+        if(libraryBooks().at(i).title() == title)
+        {
+            dbIndex = i;
+            return dbIndex;
+        }
+    }
+    return dbIndex;
+}
+
+int Library::getPatronIndex(int patronID)
+{
+    int patronIndex = -1;
+    for (unsigned int i=0; i<libraryPatrons().size(); i++)
+    {
+        if(libraryPatrons().at(i).libraryCardNumber() == patronID)
+        {
+            patronIndex = i;
+            return patronIndex;
+        }
+    }
+    return patronIndex;
 }

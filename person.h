@@ -17,7 +17,7 @@ public:
     int& age() {return _age;}
 
 
-private:
+protected:
     QString _name;
     int _age;
 };

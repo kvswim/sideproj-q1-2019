@@ -8,7 +8,7 @@ class Book
 {
 public:
     Book();
-    Book(QString author, QString genre, QString title);
+    Book(QString title, QString author, QString genre);
     ~Book() {}
     QString& title() {return _title;}
     QString& author() {return _author;}
@@ -16,7 +16,7 @@ public:
     Book getBook();
     void print();
 
-private:
+protected:
     QString _title, _author, _genre;
 };
 

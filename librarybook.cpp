@@ -7,9 +7,9 @@ LibraryBook::LibraryBook()
 
 LibraryBook::LibraryBook(Book book)
 {
-    this->title() = book.title();
-    this->author() = book.author();
-    this->genre() = book.genre();
+    _title = book.title();
+    _author = book.author();
+    _genre = book.genre();
     _isCheckedOut = false;
 }
 

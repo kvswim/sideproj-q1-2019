@@ -2,7 +2,7 @@
 
 Book::Book() {}
 
-Book::Book(QString author, QString genre, QString title)
+Book::Book(QString title, QString author, QString genre)
 {
     _author = author;
     _genre = genre;
