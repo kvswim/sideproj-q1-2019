@@ -16,5 +16,5 @@ LibraryPatron::LibraryPatron(Person person, int cardNumber)
 
 void LibraryPatron::print()
 {
-    qDebug() << this->name() << this->age() << this->libraryCardNumber();
+    qDebug() << _name << _age << _librarycardnumber;
 }

@@ -1,19 +1,19 @@
 #include "date.h"
 
-//TODO this is hopelessly broken
 Date::Date() {}
 
-Date::Date(time_t inputTime)
+Date::Date(int inputTime)
 {
     _currentTime = inputTime;
 }
 
-Date Date::addTime(Date plusTime)
+Date Date::addTime(int plusTime)
 {
-    _currentTime += plusTime.currentTime();
+    _currentTime += plusTime;
+    return Date(_currentTime);
 }
 
 void Date::print()
 {
-    qDebug() << this->currentTime();
+    qDebug() << _currentTime;
 }

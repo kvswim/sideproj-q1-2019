@@ -15,9 +15,14 @@ public:
     ~LibraryBook() {}
     void print();
 
+    //getters
     Date dueDate(){return _dueDate;}
     LibraryPatron libraryPatron(){return _patron;}
-    bool& isCheckedOut(){return _isCheckedOut;}
+    bool isCheckedOut(){return _isCheckedOut;}
+    //setters
+    void setCheckedOut(bool isCheckedOut){_isCheckedOut = isCheckedOut;}
+    void setDueDate(Date dateToSet){_dueDate = dateToSet;}
+    void setPatron(LibraryPatron libraryPatron){_patron = libraryPatron;}
 
 private:
     Date _dueDate;

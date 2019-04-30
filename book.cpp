@@ -9,11 +9,7 @@ Book::Book(QString title, QString author, QString genre)
     _title = title;
 }
 
-Book Book::getBook()
-{
-    return *this;
-}
 void Book::print()
 {
-    qDebug() << this->author() << this->genre() << this->title();
+    qDebug() << _author << _genre << _title;
 }

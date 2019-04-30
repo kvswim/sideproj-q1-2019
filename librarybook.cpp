@@ -15,8 +15,8 @@ LibraryBook::LibraryBook(Book book)
 
 void LibraryBook::print()
 {
-    qDebug() << this->author() << this->title() << this->genre()
-             << this->dueDate().currentTime()
-             << this->libraryPatron().name() << this->libraryPatron().age()
-             << this->libraryPatron().libraryCardNumber();
+    qDebug() << _author << _title << _genre
+             << _dueDate.currentTime()
+             << _patron.name() << _patron.age()
+             << _patron.libraryCardNumber();
 }

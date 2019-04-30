@@ -10,15 +10,15 @@ class Date
 {
 public:
     Date();
-    Date(time_t inputTime);
+    Date(int inputTime);
     ~Date() {}
-    Date addTime(Date plusTime);
+    Date addTime(int plusTime);
     void print();
 
-    time_t currentTime() {return _currentTime;}
+    int currentTime() {return _currentTime;}
 
 private:
-    time_t _currentTime;
+    int _currentTime;
 };
 
 #endif // DATE_H

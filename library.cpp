@@ -1,7 +1,8 @@
 #include "library.h"
+
 Library::Library()
 {
-    _currentDate = Date(1009843200); //set to January 1, 2002 12:00 AM GMT
+    _currentDate = Date(1); //set to January 1, 2002 12:00 AM GMT
 }
 Library::Library(const vector<LibraryBook> libraryBooks,
                  const vector<LibraryPatron> libraryPatrons,
@@ -12,49 +13,43 @@ Library::Library(const vector<LibraryBook> libraryBooks,
     _currentDate = currentDate;
 }
 
-//obsolete functions since vector is in use
-//void Library::resize(LibraryBook LibraryBooks){}
-//void Library::resize(LibraryPatron LibraryPatrons){}
-//void Library::checkCapacity(LibraryBook LibraryBooks) {}
-//void Library::checkCapacity(LibraryPatron LibraryPatrons) {}
-
 void Library::assignLibraryCardNumber(Person person)
 {
-    if (libraryPatrons().empty()) //first member gets card# 1001
+    if (_libraryPatrons.empty()) //first member gets card# 1001
     {
         LibraryPatron newPatron = LibraryPatron(person, 1001);
-        libraryPatrons().push_back(newPatron);
+        _libraryPatrons.push_back(newPatron);
     }
     else //everyone after gets last+1
     {
-        int lastId = libraryPatrons().back().libraryCardNumber();
+        int lastId = _libraryPatrons.back().libraryCardNumber();
         int newId = ++lastId;
         LibraryPatron newPatron = LibraryPatron (person, newId);
-        libraryPatrons().push_back(newPatron);
+        _libraryPatrons.push_back(newPatron);
     }
 }
 
-double Library::computeOverdueFines(LibraryPatron patron)
+double Library::computeOverdueFines(LibraryPatron patron) //TODO something's not right here
 {
     //1 day = 86400 seconds
     //adults >=12 charged $0.25/day overdue
     //children <12 charged 0.10/day
     double overdueFines = 0.0;
+    double quarter = 0.25;
+    double dime = 0.1;
     vector<LibraryBook> checkedOutBooks = getCheckedOutBooksbyPatron(patron.libraryCardNumber());
     for (unsigned int i = 0; i<checkedOutBooks.size(); ++i)
     {
         int dbIndex = getLibraryBookIndex(checkedOutBooks.at(i));
-        Date overdueTime = libraryBooks().at(dbIndex).dueDate().currentTime()
-                - currentDate().currentTime();
-        //acts as floor so we aren't too mean to people who just wanna read books
-        int overdueTimeinDays = overdueTime.currentTime() / 86400;
+        int overdueTime = _libraryBooks.at(dbIndex).dueDate().currentTime()
+                - _currentDate.currentTime();
         if(patron.age() >= 12) //adult
         {
-            overdueFines = (double) 0.25 * overdueTimeinDays;
+            overdueFines = quarter * overdueTime; //implicit recast to double
         }
         else //child
         {
-            overdueFines = (double) 0.1 * overdueTimeinDays;
+            overdueFines = dime * overdueTime;
         }
     }
     return overdueFines;
@@ -62,8 +57,8 @@ double Library::computeOverdueFines(LibraryPatron patron)
 
 void Library::checkOutBook(QString title, int patronID)
 {
-    //children <12 can check out for 604800 seconds
-    //adults >=12 can check out for 1210000 seconds
+    //children <12 can check out for (7 days)
+    //adults >=12 can check out for (14 days)
     int dbIndex = getLibraryBookIndex(title);
     int patronIndex = getPatronIndex(patronID);
     if (dbIndex == -1 || patronIndex == -1)
@@ -73,27 +68,24 @@ void Library::checkOutBook(QString title, int patronID)
     }
     else //book is in db, patron is in db.
     {
-        if (libraryBooks().at(dbIndex).isCheckedOut() == true)
+        if (_libraryBooks.at(dbIndex).isCheckedOut() == true)
         {
             qDebug() << "Error: That book is already checked out.";
         }
         else //all checks passed.
         {
-            if (libraryPatrons().at(patronIndex).age() >= 12)
+            if (_libraryPatrons.at(patronIndex).age() >= 12)
             {
-                libraryBooks().at(dbIndex).libraryPatron() =
-                        libraryPatrons().at(patronIndex);
-                libraryBooks().at(dbIndex).isCheckedOut() = true;
-                libraryBooks().at(dbIndex).dueDate() =
-                        currentDate().addTime(1210000);
+                _libraryBooks.at(dbIndex).setPatron(_libraryPatrons.at(patronIndex));
+                _libraryBooks.at(dbIndex).setCheckedOut(true);
+                Date dueDate = _currentDate.addTime(14);
+                _libraryBooks.at(dbIndex).setDueDate(dueDate);
             }
             else
             {
-                libraryBooks().at(dbIndex).libraryPatron() =
-                        libraryPatrons().at(patronIndex);
-                libraryBooks().at(dbIndex).isCheckedOut() = true;
-                libraryBooks().at(dbIndex).dueDate() =
-                        currentDate().addTime(604800);
+                _libraryBooks.at(dbIndex).setPatron(_libraryPatrons.at(patronIndex));
+                _libraryBooks.at(dbIndex).setCheckedOut(true);
+                _libraryBooks.at(dbIndex).setDueDate(_currentDate.addTime(7));
             }
         }
     }
@@ -106,28 +98,28 @@ void Library::checkInBook(QString title)
     {
         qDebug() << "Error: Unable to find library book in current db.";
     }
-    double fine = computeOverdueFines(libraryBooks().at(dbIndex).libraryPatron());
-    cout << "Note: patron " << libraryBooks().at(dbIndex).libraryPatron().name().toStdString()
-         << "owes " << fine << " in fines." << endl;
-    libraryBooks().at(dbIndex).libraryPatron() = LibraryPatron(); //reset w constructor
-    libraryBooks().at(dbIndex).isCheckedOut() = false;
-    libraryBooks().at(dbIndex).dueDate() = Date();
+    double fine = computeOverdueFines(_libraryBooks.at(dbIndex).libraryPatron());
+    cout << "Note: patron " << _libraryBooks.at(dbIndex).libraryPatron().name().toStdString()
+         << " owes " << fine << " in fines." << endl;
+    _libraryBooks.at(dbIndex).setPatron(LibraryPatron()); //reset w constructor
+    _libraryBooks.at(dbIndex).setCheckedOut(false);
+    _libraryBooks.at(dbIndex).setDueDate(Date());
 }
 
 void Library::changeDate() //adds one day
 {
-    currentDate().addTime(86400);
+    _currentDate.addTime(1);
 }
 
 void Library::changeDate(Date newDate)
 {
-    currentDate().addTime(newDate);
+    _currentDate.addTime(newDate.currentTime());
 }
 
 void Library::addBooktoLibrary(Book book)
 {
     LibraryBook newLibraryBook = LibraryBook(book);
-    libraryBooks().push_back(newLibraryBook);
+    _libraryBooks.push_back(newLibraryBook);
 }
 
 
@@ -135,11 +127,11 @@ void Library::addBooktoLibrary(Book book)
 vector<LibraryBook> Library::getLibraryBooksByGenre(QString genre)
 {
     vector<LibraryBook> booksByGenre;
-    for (unsigned int i=0; i<libraryBooks().size(); ++i)
+    for (unsigned int i=0; i<_libraryBooks.size(); ++i)
     {
-        if (libraryBooks().at(i).genre() == genre)
+        if (_libraryBooks.at(i).genre() == genre)
         {
-            booksByGenre.push_back(libraryBooks().at(i));
+            booksByGenre.push_back(_libraryBooks.at(i));
         }
     }
     return booksByGenre;
@@ -150,9 +142,9 @@ vector<LibraryBook> Library::getLibraryBooksByGenre(QString genre)
 vector<LibraryPatron> Library::getPatronsAdult()
 {
     vector<LibraryPatron> adultPatrons;
-    for (unsigned int i=0; i<libraryPatrons().size(); ++i)
+    for (unsigned int i=0; i<_libraryPatrons.size(); ++i)
     {
-        LibraryPatron tempPatron = libraryPatrons().at(i);
+        LibraryPatron tempPatron = _libraryPatrons.at(i);
         if(tempPatron.age() >= 12)
         {
             adultPatrons.push_back(tempPatron);
@@ -164,9 +156,9 @@ vector<LibraryPatron> Library::getPatronsAdult()
 vector<LibraryPatron> Library::getPatronsChild()
 {
     vector<LibraryPatron> childPatrons;
-    for (unsigned int i=0; i<libraryPatrons().size(); ++i)
+    for (unsigned int i=0; i<_libraryPatrons.size(); ++i)
     {
-        LibraryPatron tempPatron = libraryPatrons().at(i);
+        LibraryPatron tempPatron = _libraryPatrons.at(i);
         if (tempPatron.age() < 12)
         {
             childPatrons.push_back(tempPatron);
@@ -175,15 +167,15 @@ vector<LibraryPatron> Library::getPatronsChild()
     return childPatrons;
 }
 
-vector<LibraryBook> Library::getCheckedOutBooksbyPatron(int libraryCardNumber) //TODO something's broken here
+vector<LibraryBook> Library::getCheckedOutBooksbyPatron(int libraryCardNumber)
 {
     vector<LibraryBook> checkedOutBooks;
-    for (unsigned int i=0; i<libraryBooks().size(); ++i)
+    for (unsigned int i=0; i<_libraryBooks.size(); ++i)
     {
-        if (libraryBooks().at(i).libraryPatron().libraryCardNumber() == libraryCardNumber
-                && libraryBooks().at(i).isCheckedOut() == true)
+        if (_libraryBooks.at(i).libraryPatron().libraryCardNumber() == libraryCardNumber
+                && _libraryBooks.at(i).isCheckedOut() == true)
         {
-            checkedOutBooks.push_back(libraryBooks().at(i));
+            checkedOutBooks.push_back(_libraryBooks.at(i));
         }
     }
     return checkedOutBooks;
@@ -191,11 +183,11 @@ vector<LibraryBook> Library::getCheckedOutBooksbyPatron(int libraryCardNumber) /
 
 int Library::getLibraryBookIndex(LibraryBook libraryBookToFind){
     int bookId = -1;
-    for (unsigned int i=0; i<libraryBooks().size(); ++i)
+    for (unsigned int i=0; i<_libraryBooks.size(); ++i)
     {
-        if ((libraryBooks().at(i).author() == libraryBookToFind.author()) &&
-                libraryBooks().at(i).genre() == libraryBookToFind.genre() &&
-                libraryBooks().at(i).title() == libraryBookToFind.title())
+        if ((_libraryBooks.at(i).author() == libraryBookToFind.author()) &&
+                _libraryBooks.at(i).genre() == libraryBookToFind.genre() &&
+                _libraryBooks.at(i).title() == libraryBookToFind.title())
         {
             bookId = i;
             return bookId;
@@ -207,9 +199,9 @@ int Library::getLibraryBookIndex(LibraryBook libraryBookToFind){
 int Library::getLibraryBookIndex(QString title)
 {
     int dbIndex = -1;
-    for(unsigned int i=0; i<libraryBooks().size(); i++)
+    for(unsigned int i=0; i<_libraryBooks.size(); i++)
     {
-        if(libraryBooks().at(i).title() == title)
+        if(_libraryBooks.at(i).title() == title)
         {
             dbIndex = i;
             return dbIndex;
@@ -221,9 +213,9 @@ int Library::getLibraryBookIndex(QString title)
 int Library::getPatronIndex(int patronID)
 {
     int patronIndex = -1;
-    for (unsigned int i=0; i<libraryPatrons().size(); i++)
+    for (unsigned int i=0; i<_libraryPatrons.size(); i++)
     {
-        if(libraryPatrons().at(i).libraryCardNumber() == patronID)
+        if(_libraryPatrons.at(i).libraryCardNumber() == patronID)
         {
             patronIndex = i;
             return patronIndex;

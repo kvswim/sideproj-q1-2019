@@ -13,7 +13,8 @@ public:
     LibraryPatron(Person person, int cardNumber);
     ~LibraryPatron() {}
     void print();
-    int& libraryCardNumber() {return _librarycardnumber;}
+
+    int libraryCardNumber() {return _librarycardnumber;}
 
 private:
     int _librarycardnumber;

@@ -14,7 +14,7 @@ public:
     void print();
 
     QString name() {return _name;}
-    int& age() {return _age;}
+    int age() {return _age;}
 
 
 protected:

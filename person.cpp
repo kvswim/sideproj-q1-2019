@@ -11,5 +11,5 @@ Person::Person(QString name, int age)
 
 void Person::print()
 {
-    qDebug() << this->name() << this->age();
+    qDebug() << _name << _age;
 }

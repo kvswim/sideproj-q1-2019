@@ -21,12 +21,6 @@ public:
     Library(const vector<LibraryBook> libraryBooks,
             const vector<LibraryPatron> libraryPatrons, const Date currentDate);
 
-//  obsolete functions since vector is in use
-//    void resize(LibraryBook LibraryBooks);
-//    void resize(LibraryPatron LibraryPatrons);
-//    void checkCapacity(LibraryBook LibraryBooks);
-//    void checkCapacity(LibraryPatron LibraryPatrons);
-
     void assignLibraryCardNumber(Person person);
     double computeOverdueFines(LibraryPatron patron);
     void checkOutBook(QString title, int patronID);
@@ -42,9 +36,9 @@ public:
     int getLibraryBookIndex(QString title);
     int getPatronIndex(int patronID);
 
-    vector<LibraryBook>& libraryBooks() {return _libraryBooks;}
-    vector<LibraryPatron>& libraryPatrons() {return _libraryPatrons;}
-    Date& currentDate() {return _currentDate;}
+    vector<LibraryBook> libraryBooks() {return _libraryBooks;}
+    vector<LibraryPatron> libraryPatrons() {return _libraryPatrons;}
+
 
 private:
     vector<LibraryBook> _libraryBooks;
