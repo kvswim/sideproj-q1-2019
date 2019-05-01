@@ -103,17 +103,18 @@ int main(int argc, char *argv[])
         {
             if(commandVector.at(i+1) == "1") //reset to day 1
             {
-                runtimeLibrary.changeDate(Date(1));
+                runtimeLibrary.resetDate();
                 cout << "Library has been set to day 1 (January 1, 2002)." << endl;
             }
             else
             {
-                for(int j=0; j<commandVector.at(i+1).toInt(); j++)
-                {
-                    runtimeLibrary.changeDate(Date()); //add days
-                }
-                cout << "Library date has been moved forward by " <<
-                        commandVector.at(i+1).toInt() << " days." << endl;
+//                for(int j=0; j<commandVector.at(i+1).toInt(); j++)
+//                {
+//                    runtimeLibrary.changeDate(Date()); //add days
+//                }
+                runtimeLibrary.changeDate(Date(commandVector.at(i+1).toInt()));
+                cout << "Library date has been set to day " <<
+                        commandVector.at(i+1).toInt() << endl;
             }
             i = i+1;
         }

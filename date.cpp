@@ -2,18 +2,18 @@
 
 Date::Date() {}
 
-Date::Date(int inputTime)
+Date::Date(int inputDay)
 {
-    _currentTime = inputTime;
+    _currentDay = inputDay;
 }
 
-Date Date::addTime(int plusTime)
+Date Date::addTime(int daysToAdd)
 {
-    _currentTime += plusTime;
-    return Date(_currentTime);
+    _currentDay += daysToAdd;
+    return Date(_currentDay);
 }
 
 void Date::print()
 {
-    qDebug() << _currentTime;
+    qDebug() << _currentDay;
 }

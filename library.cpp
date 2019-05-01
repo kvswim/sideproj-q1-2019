@@ -29,7 +29,7 @@ void Library::assignLibraryCardNumber(Person person)
     }
 }
 
-double Library::computeOverdueFines(LibraryPatron patron) //TODO something's not right here
+double Library::computeOverdueFines(LibraryPatron patron)
 {
     //1 day = 86400 seconds
     //adults >=12 charged $0.25/day overdue
@@ -40,9 +40,14 @@ double Library::computeOverdueFines(LibraryPatron patron) //TODO something's not
     vector<LibraryBook> checkedOutBooks = getCheckedOutBooksbyPatron(patron.libraryCardNumber());
     for (unsigned int i = 0; i<checkedOutBooks.size(); ++i)
     {
-        int dbIndex = getLibraryBookIndex(checkedOutBooks.at(i));
-        int overdueTime = _libraryBooks.at(dbIndex).dueDate().currentTime()
-                - _currentDate.currentTime();
+        int overdueTime = 0;
+        int dbIndex = getLibraryBookIndex(checkedOutBooks.at(i).title());
+        int dueDate = _libraryBooks.at(dbIndex).dueDate().currentDay();
+        int currentDate = _currentDate.currentDay();
+        if (currentDate > dueDate)
+        {
+            overdueTime = currentDate - dueDate;
+        }
         if(patron.age() >= 12) //adult
         {
             overdueFines = quarter * overdueTime; //implicit recast to double
@@ -78,14 +83,15 @@ void Library::checkOutBook(QString title, int patronID)
             {
                 _libraryBooks.at(dbIndex).setPatron(_libraryPatrons.at(patronIndex));
                 _libraryBooks.at(dbIndex).setCheckedOut(true);
-                Date dueDate = _currentDate.addTime(14);
+                Date dueDate(_currentDate.currentDay() + 14);
                 _libraryBooks.at(dbIndex).setDueDate(dueDate);
             }
             else
             {
                 _libraryBooks.at(dbIndex).setPatron(_libraryPatrons.at(patronIndex));
                 _libraryBooks.at(dbIndex).setCheckedOut(true);
-                _libraryBooks.at(dbIndex).setDueDate(_currentDate.addTime(7));
+                Date dueDate(_currentDate.currentDay() + 7);
+                _libraryBooks.at(dbIndex).setDueDate(dueDate);
             }
         }
     }
@@ -106,14 +112,14 @@ void Library::checkInBook(QString title)
     _libraryBooks.at(dbIndex).setDueDate(Date());
 }
 
-void Library::changeDate() //adds one day
+void Library::resetDate()
 {
-    _currentDate.addTime(1);
+    _currentDate = Date(1);
 }
 
 void Library::changeDate(Date newDate)
 {
-    _currentDate.addTime(newDate.currentTime());
+    _currentDate = newDate;
 }
 
 void Library::addBooktoLibrary(Book book)

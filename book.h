@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QDebug>
+#include <string>
 
 class Book
 {
@@ -17,10 +18,6 @@ public:
     QString& title() {return _title;}
     QString& author() {return _author;}
     QString& genre() {return _genre;}
-
-    /*void setTitle(QString title) {_title = title;}
-    void setAuthor(QString author) {_author = author;}
-    void setGenre(QString genre) {_genre = genre;}*/
 
 protected:
     QString _title, _author, _genre;

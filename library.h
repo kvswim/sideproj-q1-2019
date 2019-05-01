@@ -25,7 +25,7 @@ public:
     double computeOverdueFines(LibraryPatron patron);
     void checkOutBook(QString title, int patronID);
     void checkInBook(QString title);
-    void changeDate();
+    void resetDate();
     void changeDate(Date newDate);
     void addBooktoLibrary(Book book);
     vector<LibraryBook> getLibraryBooksByGenre(QString genre);

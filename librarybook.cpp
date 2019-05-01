@@ -16,7 +16,7 @@ LibraryBook::LibraryBook(Book book)
 void LibraryBook::print()
 {
     qDebug() << _author << _title << _genre
-             << _dueDate.currentTime()
+             << _dueDate.currentDay()
              << _patron.name() << _patron.age()
              << _patron.libraryCardNumber();
 }
