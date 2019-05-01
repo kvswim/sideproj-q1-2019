@@ -50,11 +50,11 @@ double Library::computeOverdueFines(LibraryPatron patron)
         }
         if(patron.age() >= 12) //adult
         {
-            overdueFines = quarter * overdueTime; //implicit recast to double
+            overdueFines += quarter * overdueTime; //implicit recast to double
         }
         else //child
         {
-            overdueFines = dime * overdueTime;
+            overdueFines += dime * overdueTime;
         }
     }
     return overdueFines;
