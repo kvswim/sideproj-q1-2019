@@ -12,11 +12,16 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
+    if (argc != 2)
+    {
+        qDebug() << "Invalid number of command line arguments.";
+    }
+    QString command = QString::fromStdString(argv[1]);
     Library runtimeLibrary;
     vector<QString> commandVector;
-    QFile file("command");
-    if(!file.open(QIODevice::ReadOnly)) {
+    QFile file(command);
+    if(!file.open(QIODevice::ReadOnly) || !file.exists()) {
+        qDebug() << "Unable to open file.";
         return 0;
     }
     QTextStream stream(&file);
@@ -173,7 +178,10 @@ int main(int argc, char *argv[])
             }
             i=i+1;
         }
-
+        if(commandVector.at(i) == "\n")
+        {
+            i = i+1; //ignore newline
+        }
         if(i == commandVector.size() - 1) break; //make sure we don't overflow
     }
     cout << "Done with program, press ctrl+c to break." << endl;

@@ -70,6 +70,9 @@ void Library::checkOutBook(QString title, int patronID)
     {
         qDebug() << "Something went wrong. dbIndex is " << dbIndex
                  << "PatronIndex is " << patronIndex;
+        //error: book was not found in db
+        //error: book tried to be checked out to someone not in db
+        //-1 indicates not found
     }
     else //book is in db, patron is in db.
     {
@@ -104,6 +107,10 @@ void Library::checkInBook(QString title)
     {
         qDebug() << "Error: Unable to find library book in current db.";
     }
+    if (!_libraryBooks.at(dbIndex).isCheckedOut())
+    {
+        qDebug() << "Error: That book isn't checked out.";
+    }
     double fine = computeOverdueFines(_libraryBooks.at(dbIndex).libraryPatron());
     cout << "Note: patron " << _libraryBooks.at(dbIndex).libraryPatron().name().toStdString()
          << " owes " << fine << " in fines." << endl;
@@ -124,6 +131,11 @@ void Library::changeDate(Date newDate)
 
 void Library::addBooktoLibrary(Book book)
 {
+    int dbIndex = getLibraryBookIndex(book.title());
+    if (dbIndex != -1)
+    {
+        qDebug() << "That book is already in the db.";
+    }
     LibraryBook newLibraryBook = LibraryBook(book);
     _libraryBooks.push_back(newLibraryBook);
 }
@@ -176,6 +188,10 @@ vector<LibraryPatron> Library::getPatronsChild()
 vector<LibraryBook> Library::getCheckedOutBooksbyPatron(int libraryCardNumber)
 {
     vector<LibraryBook> checkedOutBooks;
+    if(getPatronIndex(libraryCardNumber) == -1)
+    {
+        qDebug() << "Error: that patron does not exist in db.";
+    }
     for (unsigned int i=0; i<_libraryBooks.size(); ++i)
     {
         if (_libraryBooks.at(i).libraryPatron().libraryCardNumber() == libraryCardNumber
