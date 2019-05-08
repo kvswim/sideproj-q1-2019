@@ -111,9 +111,6 @@ void Library::checkInBook(QString title)
     {
         qDebug() << "Error: That book isn't checked out.";
     }
-    double fine = computeOverdueFines(_libraryBooks.at(dbIndex).libraryPatron());
-    cout << "Note: patron " << _libraryBooks.at(dbIndex).libraryPatron().name().toStdString()
-         << " owes " << fine << " in fines." << endl;
     _libraryBooks.at(dbIndex).setPatron(LibraryPatron()); //reset w constructor
     _libraryBooks.at(dbIndex).setCheckedOut(false);
     _libraryBooks.at(dbIndex).setDueDate(Date());
@@ -127,6 +124,13 @@ void Library::resetDate()
 void Library::changeDate(Date newDate)
 {
     _currentDate = newDate;
+    for (unsigned int i = 0; i<_libraryPatrons.size(); ++i)
+    {
+        cout << "Patron " << _libraryPatrons.at(i).name().toStdString()
+             << " owes " << computeOverdueFines(_libraryPatrons.at(i))
+             << " in fines." << endl;
+    }
+
 }
 
 void Library::addBooktoLibrary(Book book)
