@@ -9,8 +9,10 @@ class Book
 {
 public:
     Book();
+    Book(const Book &other);
     Book(QString title, QString author, QString genre);
     ~Book() {}
+    Book& operator=(const Book& other);
     void print();
 
     //TODO pass by reference probably not required?

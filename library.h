@@ -20,7 +20,8 @@ public:
     ~Library() {}
     Library(const vector<LibraryBook> libraryBooks,
             const vector<LibraryPatron> libraryPatrons, const Date currentDate);
-
+    Library(const Library &other);
+    Library& operator=(const Library& other);
     void assignLibraryCardNumber(Person person);
     double computeOverdueFines(LibraryPatron patron);
     void checkOutBook(QString title, int patronID);
@@ -38,6 +39,7 @@ public:
 
     vector<LibraryBook> libraryBooks() {return _libraryBooks;}
     vector<LibraryPatron> libraryPatrons() {return _libraryPatrons;}
+    Date getCurrentLibraryDate() {return _currentDate;}
 
 
 private:

@@ -13,6 +13,7 @@ public:
     LibraryBook();
     LibraryBook(Book book);
     ~LibraryBook() {}
+    LibraryBook& operator=(const LibraryBook& other);
     void print();
 
     //getters

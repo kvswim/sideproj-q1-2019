@@ -11,6 +11,8 @@ public:
     LibraryPatron();
     LibraryPatron(Person person);
     LibraryPatron(Person person, int cardNumber);
+    LibraryPatron(const LibraryPatron &other);
+    LibraryPatron& operator=(const LibraryPatron& other);
     ~LibraryPatron() {}
     void print();
 

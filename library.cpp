@@ -4,6 +4,7 @@ Library::Library()
 {
     _currentDate = Date(1); //set to January 1, 2002 12:00 AM GMT
 }
+
 Library::Library(const vector<LibraryBook> libraryBooks,
                  const vector<LibraryPatron> libraryPatrons,
                  const Date currentDate)
@@ -11,6 +12,22 @@ Library::Library(const vector<LibraryBook> libraryBooks,
     _libraryBooks = libraryBooks;
     _libraryPatrons = libraryPatrons;
     _currentDate = currentDate;
+}
+
+Library::Library(const Library &other)
+{
+    _libraryBooks = other._libraryBooks;
+    _libraryPatrons = other._libraryPatrons;
+    _currentDate = other._currentDate;
+}
+
+Library& Library::operator=(const Library& other)
+{
+    if (this == &other) return *this;
+    _libraryBooks = other._libraryBooks;
+    _libraryPatrons = other._libraryPatrons;
+    _currentDate = other._currentDate;
+    return *this;
 }
 
 void Library::assignLibraryCardNumber(Person person)

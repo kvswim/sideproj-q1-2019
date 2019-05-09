@@ -10,7 +10,9 @@ class Person
 public:
     Person();
     Person(QString name, int age);
+    Person(const Person &other);
     ~Person() {}
+    Person& operator =(const Person& other);
     void print();
 
     QString name() {return _name;}
