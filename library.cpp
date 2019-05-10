@@ -55,23 +55,26 @@ double Library::computeOverdueFines(LibraryPatron patron)
     double quarter = 0.25;
     double dime = 0.1;
     vector<LibraryBook> checkedOutBooks = getCheckedOutBooksbyPatron(patron.libraryCardNumber());
-    for (unsigned int i = 0; i<checkedOutBooks.size(); ++i)
+    if (checkedOutBooks.size() != 0)
     {
-        int overdueTime = 0;
-        int dbIndex = getLibraryBookIndex(checkedOutBooks.at(i).title());
-        int dueDate = _libraryBooks.at(dbIndex).dueDate().currentDay();
-        int currentDate = _currentDate.currentDay();
-        if (currentDate > dueDate)
+        for (unsigned int i = 0; i<checkedOutBooks.size(); ++i)
         {
-            overdueTime = currentDate - dueDate;
-        }
-        if(patron.age() >= 12) //adult
-        {
-            overdueFines += quarter * overdueTime; //implicit recast to double
-        }
-        else //child
-        {
-            overdueFines += dime * overdueTime;
+            int overdueTime = 0;
+            int dbIndex = getLibraryBookIndex(checkedOutBooks.at(i).title());
+            int dueDate = _libraryBooks.at(dbIndex).dueDate().currentDay();
+            int currentDate = _currentDate.currentDay();
+            if (currentDate > dueDate)
+            {
+                overdueTime = currentDate - dueDate;
+            }
+            if(patron.age() >= 12) //adult
+            {
+                overdueFines += quarter * overdueTime; //implicit recast to double
+            }
+            else //child
+            {
+                overdueFines += dime * overdueTime;
+            }
         }
     }
     return overdueFines;
@@ -83,19 +86,25 @@ void Library::checkOutBook(QString title, int patronID)
     //adults >=12 can check out for (14 days)
     int dbIndex = getLibraryBookIndex(title);
     int patronIndex = getPatronIndex(patronID);
-    if (dbIndex == -1 || patronIndex == -1)
+    //error: book was not found in db
+    //error: book tried to be checked out to someone not in db
+    //-1 indicates not found
+    if (dbIndex == -1)
     {
-        qDebug() << "Something went wrong. dbIndex is " << dbIndex
-                 << "PatronIndex is " << patronIndex;
-        //error: book was not found in db
-        //error: book tried to be checked out to someone not in db
-        //-1 indicates not found
+        qDebug() << "Error: That book was not found in the database.";
+        return;
+    }
+    if (patronIndex == -1)
+    {
+        qDebug() << "Error: That patron was not found in the database.";
+        return;
     }
     else //book is in db, patron is in db.
     {
         if (_libraryBooks.at(dbIndex).isCheckedOut() == true)
         {
             qDebug() << "Error: That book is already checked out.";
+            return;
         }
         else //all checks passed.
         {
@@ -123,10 +132,12 @@ void Library::checkInBook(QString title)
     if (dbIndex == -1)
     {
         qDebug() << "Error: Unable to find library book in current db.";
+        return;
     }
     if (!_libraryBooks.at(dbIndex).isCheckedOut())
     {
         qDebug() << "Error: That book isn't checked out.";
+        return;
     }
     _libraryBooks.at(dbIndex).setPatron(LibraryPatron()); //reset w constructor
     _libraryBooks.at(dbIndex).setCheckedOut(false);
@@ -156,6 +167,7 @@ void Library::addBooktoLibrary(Book book)
     if (dbIndex != -1)
     {
         qDebug() << "That book is already in the db.";
+        return;
     }
     LibraryBook newLibraryBook = LibraryBook(book);
     _libraryBooks.push_back(newLibraryBook);
@@ -212,6 +224,7 @@ vector<LibraryBook> Library::getCheckedOutBooksbyPatron(int libraryCardNumber)
     if(getPatronIndex(libraryCardNumber) == -1)
     {
         qDebug() << "Error: that patron does not exist in db.";
+        return checkedOutBooks; //empty vector
     }
     for (unsigned int i=0; i<_libraryBooks.size(); ++i)
     {

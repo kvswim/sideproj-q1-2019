@@ -31,7 +31,8 @@ DISTFILES += \
     README.md \
     LICENSE \
     command \
-    library_project.txt
+    library_project.txt \
+    badcommand
 
 HEADERS += \
     book.h \

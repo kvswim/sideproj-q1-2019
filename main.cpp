@@ -6,7 +6,6 @@
 
 #include "library.h"
 
-//if i have to type std::cout and std::endl a million times i might go insane
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -15,6 +14,7 @@ int main(int argc, char *argv[])
     if (argc != 2)
     {
         qDebug() << "Invalid number of command line arguments.";
+        exit(0);
     }
     QString command = QString::fromStdString(argv[1]);
     Library runtimeLibrary;
@@ -45,9 +45,9 @@ int main(int argc, char *argv[])
             QString author = commandVector.at(i+2);
             QString genre = commandVector.at(i+3);
             Book bookToAdd(title, author, genre);
-            runtimeLibrary.addBooktoLibrary(bookToAdd);
-            cout << "Added book " << bookToAdd.title().toStdString()
+            cout << "Trying to add book " << bookToAdd.title().toStdString()
                  << " to library" << endl;
+            runtimeLibrary.addBooktoLibrary(bookToAdd);
             //set index to one before next command, will be incremented on start of next loop
             i = i+3;
         }
@@ -91,9 +91,9 @@ int main(int argc, char *argv[])
 
         if(commandVector.at(i) == "CHECKOUT")
         {
-            runtimeLibrary.checkOutBook(commandVector.at(i+1), commandVector.at(i+2).toInt());
-            cout << "Checked out book " << commandVector.at(i+1).toStdString() << " to patronID "
+            cout << "Trying to check out book " << commandVector.at(i+1).toStdString() << " to patronID "
                  << commandVector.at(i+2).toInt() << endl;
+            runtimeLibrary.checkOutBook(commandVector.at(i+1), commandVector.at(i+2).toInt());
             i = i+2;
         }
 
@@ -124,10 +124,10 @@ int main(int argc, char *argv[])
 
         if(commandVector.at(i) == "PATRONSBOOKS")
         {
-            vector<LibraryBook> checkedOutBooks =
-                    runtimeLibrary.getCheckedOutBooksbyPatron(commandVector.at(i+1).toInt());
             cout << "Printing currently checked out books for patron ID #: "
                  << commandVector.at(i+1).toStdString() << endl;
+            vector<LibraryBook> checkedOutBooks =
+                    runtimeLibrary.getCheckedOutBooksbyPatron(commandVector.at(i+1).toInt());
             if(checkedOutBooks.size() == 0)
             {
                 cout << "No books currently checked out for above ID." << endl;
@@ -182,6 +182,7 @@ int main(int argc, char *argv[])
         }
         if(i == commandVector.size() - 1) break; //make sure we don't overflow
     }
-    cout << "Done with program, press ctrl+c to break." << endl;
+    cout << "Done with program." << endl;
+    exit(0);
     return a.exec();
 }
